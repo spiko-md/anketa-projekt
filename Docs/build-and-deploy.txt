@@ -1,0 +1,13 @@
+
+# Build and Deploy Instructions (Render.com, Docker)
+
+1. Push this project to GitHub.
+
+2. On Render:
+   - Click "New Web Service"
+   - Choose "Deploy from a Git repository"
+   - Select your repo
+   - Select **Docker** environment
+   - Set Port to 80 (or 5000 if needed)
+
+3. Wait for deployment to finish.
