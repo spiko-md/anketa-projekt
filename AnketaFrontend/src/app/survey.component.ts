@@ -2,33 +2,52 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-survey',
-  template: \`
-    <h2>Anketa</h2>
-    <form (submit)="submit($event)">
-      <label>Prodaja: <input type="range" [(ngModel)]="prodaja" name="prodaja" min="1" max="10"> {{ prodaja }}</label><br>
-      <label>Odkup: <input type="range" [(ngModel)]="odkup" name="odkup" min="1" max="10"> {{ odkup }}</label><br>
-      <label>Obnova: <input type="range" [(ngModel)]="obnova" name="obnova" min="1" max="10"> {{ obnova }}</label><br>
-      <label>Komentar: <textarea [(ngModel)]="komentar" name="komentar"></textarea></label><br>
-      <button>Pošlji</button>
-    </form>
-  \`
+	selector: 'app-survey',
+	template: `
+  <h1>Dragi solastnik</h1>
+  <p>
+  Z namenom, da se v mirnem in enotnem duhu odločimo glede prihodnosti hiše
+  naših starih staršev, te vabim, da izraziš svoje mnenje v spodnji anketi.
+  </p>
+
+  <h2>Anketa</h2>
+
+  <form (ngSubmit)="submit($event)">
+  <div class="question">
+  <label>Kako zelo si za to, da se hiša proda?</label>
+  <input type="range" [(ngModel)]="data.prodaja" name="prodaja" min="1" max="10" />
+  <span>{{ data.prodaja }}</span>
+  </div>
+  <div class="question">
+  <label>Bi ti bil pripravljen odkupiti delež?</label>
+  <input type="range" [(ngModel)]="data.odkup" name="odkup" min="1" max="10" />
+  <span>{{ data.odkup }}</span>
+  </div>
+  <div class="question">
+  <label>Bi bil pripravljen vlagati v obnovo?</label>
+  <input type="range" [(ngModel)]="data.obnova" name="obnova" min="1" max="10" />
+  <span>{{ data.obnova }}</span>
+  </div>
+  <div class="question">
+  <label>Komentar:</label>
+  <textarea [(ngModel)]="data.komentar" name="komentar"></textarea>
+  </div>
+  <button type="submit">Pošlji mnenje</button>
+  </form>
+`
 })
 export class SurveyComponent {
-  prodaja = 5;
-  odkup = 5;
-  obnova = 5;
-  komentar = '';
+	data: any = {
+		prodaja: 5,
+		odkup: 5,
+		obnova: 5,
+		komentar: ''
+	};
 
-  constructor(private http: HttpClient) {}
+	constructor(private http: HttpClient) { }
 
-  submit(event: Event) {
-    event.preventDefault();
-    this.http.post('/api/survey', {
-      prodaja: this.prodaja,
-      odkup: this.odkup,
-      obnova: this.obnova,
-      komentar: this.komentar
-    }).subscribe(() => alert("Hvala!"));
-  }
+	submit(event: Event) {
+		event.preventDefault();
+		this.http.post('/api/survey', this.data).subscribe(() => alert("Hvala!"));
+	}
 }
